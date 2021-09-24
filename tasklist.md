@@ -3,6 +3,11 @@
     - Component: Product/Card Component
 - Login/Signup
 - Product submission form(to create a product-page with timer)
+    - Product name
+    - Price
+    - Quantity
+- Cart
+- Thank you
 
 # Functionality
 - Login
@@ -28,3 +33,10 @@
 # Front end goals
 - React page transitions
 - Lazy loading images
+
+# DB Modeling
+- Price
+- Name
+- Description
+- Time to drop/make accessible
+- Link to the image url
