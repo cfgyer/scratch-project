@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-const router = Router()
+const router = Router();
 
 router.post("/", (req, res) => {
     return res.send(`Created product: ${req.body.productName}`)

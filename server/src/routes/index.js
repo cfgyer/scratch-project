@@ -1,5 +1,9 @@
-import products from "./product"
+import products from "./product";
+import orders from "./order";
+import users from "./user";
 
 export default {
-    products
+    products, 
+    orders, 
+    users
 }
