@@ -1,8 +1,16 @@
-import 'dotenv/config';
-import cors from 'cors'
-import express from 'express'
+require("dotenv").config;
+import cors from 'cors';
+import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
+import bcrypt from 'bcrypt';
+const db = require('./db/index.js');
 
 import routes from './routes'
+
+const LocalStrategy = require('passport-local').Strategy
+const store = new session.MemoryStore();
+
 
 const app = express()
 
@@ -11,12 +19,73 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        store: store,
+        cookie: { maxage: 1000 * 60 * 60 *24, secure: false},
+        saveUninitialized: false,
+        resave: false
+    })
+)
+
+app.use(passport.initialize());
+app.use(passport.session())
+
+// passport.serializeUser((user,done) => {
+//     //user.id prop name?
+//     done(null, user.id)
+// })
+
+// passport.deserializeUser((idebugger, done) => {
+//     //db user lookup
+//     // if err done(err)
+//     //done(null, user)
+// })
+
+passport.use(
+    new LocalStrategy( async function(username, password, cb) {
+        // Check if user exists in our db
+        const sqlStr = 'SELECT * FROM users WHERE username=$1';
+        const value = [username];
+        const userQueryResult = db.query(sqlStr, value); 
+        // If user found
+        if (userQueryResult.rows > 0) {
+          // Check plaintext password against db password
+          const hashCheck = await bcrypt.compare(password, userQueryResult.rows[0].password);
+          // If user exists and our database 
+          if (hashCheck) {
+            console.log('hash check worked \n', userQueryResult)
+            return cb(null, userQueryResult);
+          } else {
+            return cb(null, false);
+          }
+        } else {
+          return cb(null, false);
+        }
+    })
+)
+
+app.use((req, res, next) => {
+    console.log(req.session)
+    console.log(req.user)
+    next()
+})
+
+app.post("/auth/login", passport.authenticate('local'), (req, res) => {
+    console.log(req.user)
+  });
+  
+
 app.use('/api/products', routes.products);
 app.use('/api/users', routes.users);
 app.use('/api/orders', routes.orders);
+// app.use('/auth', routes.auth)
 
 // TODO: global error handler
-
+app.use((err, req, res, next)=>{
+    if(err) console.log("Error from global handler: \n", err)
+})
 app.listen(3000, () => {
     console.log(`App listening on port ${process.env.PORT}.`)
 })

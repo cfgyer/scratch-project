@@ -1,4 +1,5 @@
 const db = require('../db/index.js');
+import hashPassword from '../utils/hash';
 
 const userController = {};
 
@@ -7,16 +8,17 @@ userController.createUser = async (req, res, next) => {
 
   const {email, secret_password} = req.body;
   const sqlStr = "INSERT INTO users(username, password) VALUES($1, $2);"
-  const values = [email, secret_password]
+  const resultPassword = await hashPassword(secret_password);
+  const values = [email, resultPassword]
+  console.log(resultPassword)
   try {
-  await db.query(sqlStr, values);
-    console.log('successfully inserted user into database');
+    const result = await db.query(sqlStr, values);
+    console.log('successfully inserted user into database', result);
+    res.locals.isAuthenticated = true;
     return next();
   } catch(error) {
     return next(error);
   }
-                  
-  // in elephant sql, you need a "prepared" statement query string to avoid sql injections; php explanation here: https://stackoverflow.com/questions/4712037/what-is-parameterized-query
   // form => posts to req.body
     // <input name="username" value=""/>
     // <input name="password" value={e.target.value}/>
