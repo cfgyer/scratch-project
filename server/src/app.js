@@ -81,12 +81,6 @@ passport.use(
     })
 )
 
-app.use((req, res, next) => {
-    console.log(req.session)
-    console.log(req.user)
-    next()
-})
-
 app.post("/auth/login", passport.authenticate('local'), (req, res) => {
     console.log("This is your user: \n", req.user);
     console.log("This is your session \n", req.session);
@@ -96,6 +90,10 @@ app.post("/auth/login", passport.authenticate('local'), (req, res) => {
     res.send("Hey idiot you logged in.")
   });
   
+function isAuth(req, res, next) {
+    req.logout();
+    next()
+}
 
 app.use('/api/products', routes.products);
 app.use('/api/users', routes.users);

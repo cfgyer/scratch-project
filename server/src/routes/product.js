@@ -1,12 +1,13 @@
 import { Router } from 'express'
+import productController from '../controllers/productController';
 
 const router = Router();
 
-router.post("/", (req, res) => {
-    return res.send(`Created product: ${req.body.productName}`)
+router.post("/", productController.createProduct,(req, res) => {
+    return res.send(`Created product: ${req.body.product_name}`)
 })
 
-router.get('/', (req, res) => {
+router.get('/', productController.getAllProducts, (req, res) => {
     return res.send('<h1>Hello from server/products</h1>')
 })
 

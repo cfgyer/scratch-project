@@ -6,17 +6,34 @@ const productController = {};
 
 // product portfolio controllers
 productController.createProduct = async (req, res, next) => {
-  
-  // in elephant sql, you need a "prepared" statement query string to avoid sql injections; php explanation here: https://stackoverflow.com/questions/4712037/what-is-parameterized-query
-  const speciesId = req.query.id;
-  // notes from Christian - use an ORM (third party library to avoid creating raw concatenated sql string - look at Sequelize)
-  const sqlStr = ``;
-  const result = await db.query(sqlStr);
-  res.locals.speciesInfo = result.rows[0];
-  next();
+  const {drop_time, product_name, brand_name, price, description, image_url} = req.body;
+  const values = [drop_time, product_name, brand_name, price, description, image_url];
+  const sqlStr = `INSERT INTO products (drop_time, product_name, brand_name, product_price, description, image_url) VALUES ($1, $2, $3, $4, $5, $6)`;
+  try {
+    await db.query(sqlStr, values);
+    console.log('inserted into db')
+    return next();
+  } catch(e) {
+    return next(e);
+  }
 }
 
-productController.getProduct = async (req, res, next) => {}
+productController.getProduct = async (req, res, next) => {
+  const sqlStr = 'SELECT * FROM products WHERE product_id=$1';
+}
+
+
+
+productController.getAllProducts = async (req, res, next) => {
+  const sqlStr = 'SELECT * FROM products'; 
+  try {
+    const result = await db.query(sqlStr);
+    console.log('retrieved object of all products', result.rows)
+    return res.json({products: result.rows});
+  } catch(e) {
+    return next(e);
+  }
+}
 
 productController.updateProduct = async (req, res, next) => {}
 
