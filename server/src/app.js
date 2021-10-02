@@ -99,7 +99,6 @@ app.get("/logout", (req, res) => {
 app.use('/api/products', routes.products);
 app.use('/api/users', routes.users);
 app.use('/api/orders', routes.orders);
-// app.use('/auth', routes.auth)
 
 // TODO: global error handler
 app.use((err, req, res, next)=>{
