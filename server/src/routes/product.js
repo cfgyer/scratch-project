@@ -3,7 +3,14 @@ import productController from '../controllers/productController';
 
 const router = Router();
 
-router.post("/", productController.createProduct,(req, res) => {
+function isUserAuth(req, res, next) {
+    if(req.isAuthenticated()) return next()
+    else {
+        return res.status(401).json({err: "You are not authenticated."});
+    }
+}
+
+router.post("/", isUserAuth, productController.createProduct, (req, res) => {
     return res.send(`Created product: ${req.body.product_name}`)
 })
 

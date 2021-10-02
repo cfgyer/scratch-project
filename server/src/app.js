@@ -90,10 +90,11 @@ app.post("/auth/login", passport.authenticate('local'), (req, res) => {
     res.send("Hey idiot you logged in.")
   });
   
-function isAuth(req, res, next) {
+app.get("/logout", (req, res) => {
     req.logout();
-    next()
-}
+    res.send("temporary response from logout")
+});
+
 
 app.use('/api/products', routes.products);
 app.use('/api/users', routes.users);
