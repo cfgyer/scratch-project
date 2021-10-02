@@ -1,0 +1,112 @@
+.header {
+  display: flex;
+  background-color: white;
+  height: 55px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 100px;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 2%;
+  padding-bottom: 1.5%;
+  margin: 0 auto;
+}
+
+.link {
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  /* position: relative; */
+  color: #303030;
+}
+
+.logo {
+  color: #303030;
+  text-decoration: none;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    transition-timing-function: ease;
+  }
+
+  70% {
+    transform: scale(1);
+    transition-timing-function: ease;
+  }
+
+  100% {
+    transform: scale(0.95);
+    transition-timing-function: ease;
+  }
+}
+
+.link:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #303030;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+.link:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.header__left {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  font-family: 'Rubik', sans-serif;
+  gap: 80px;
+  font-weight: bold;
+}
+
+.header__left > a {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-content: space-between;
+  margin-right: 20px;
+}
+
+.header__right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-content: space-between;
+  gap: 80px;
+  font-weight: bold;
+}
+
+.header__right > a {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-content: space-between;
+  margin-left: 20px;
+  font-family: 'Rubik', sans-serif;
+}
+
+.header__center {
+  display: flex;
+  flex-grow: 0.5;
+  justify-content: center;
+  font-family: 'Rubik', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+}

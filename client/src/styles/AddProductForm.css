@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Rubik', sans-serif;
+}
+
+.product_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5% 37%;
+}
+
+input[value='Add Product'] {
+  margin-top: 1em;
+  background-color: white;
+  font-size: 15px;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  padding: 1em;
+  cursor: pointer;
+  border: solid 4px #ebebebee;
+  /* box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3); */
+}
